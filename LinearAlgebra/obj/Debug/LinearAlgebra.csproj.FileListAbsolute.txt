@@ -1,0 +1,5 @@
+c:\users\user\documents\visual studio 2013\Projects\MatSharp\LinearAlgebra\obj\Debug\LinearAlgebra.csprojResolveAssemblyReference.cache
+c:\users\user\documents\visual studio 2013\Projects\MatSharp\LinearAlgebra\bin\Debug\LinearAlgebra.dll
+c:\users\user\documents\visual studio 2013\Projects\MatSharp\LinearAlgebra\bin\Debug\LinearAlgebra.pdb
+c:\users\user\documents\visual studio 2013\Projects\MatSharp\LinearAlgebra\obj\Debug\LinearAlgebra.dll
+c:\users\user\documents\visual studio 2013\Projects\MatSharp\LinearAlgebra\obj\Debug\LinearAlgebra.pdb
