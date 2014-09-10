@@ -34,6 +34,10 @@ namespace MatSharp.LinearAlgebra
             this.data = data;
         }
 
+        /// <summary>
+        /// Calculates the transpose of this matrix
+        /// </summary>
+        /// <returns>The transpose of the matrix</returns>
         public Matrix<T> Transpose()
         {
             Matrix<T> result = new Matrix<T>(this.ColumnsCount, this.RowsCount);
@@ -45,6 +49,12 @@ namespace MatSharp.LinearAlgebra
             return result;
         }
 
+        /// <summary>
+        /// Calculates the sum between two matrices.
+        /// </summary>
+        /// <param name="m1">Matrix</param>
+        /// <param name="m2">Matrix</param>
+        /// <returns>A matrix with the sum between the two matrices.</returns>
         public static Matrix<T> operator +(Matrix<T> m1, Matrix<T> m2)
         {
             if ((m1.RowsCount != m2.RowsCount) || (m1.ColumnsCount != m2.ColumnsCount))
@@ -59,7 +69,12 @@ namespace MatSharp.LinearAlgebra
             return result;
         }
 
-
+        /// <summary>
+        /// Calculates the subtraction between two matrices.
+        /// </summary>
+        /// <param name="m1">Matrix</param>
+        /// <param name="m2">Matrix</param>
+        /// <returns>A matrix with the sum between the two matrices.</returns>
         public static Matrix<T> operator -(Matrix<T> m1, Matrix<T> m2)
         {
             if ((m1.RowsCount != m2.RowsCount) || (m1.ColumnsCount != m2.ColumnsCount))
@@ -75,7 +90,7 @@ namespace MatSharp.LinearAlgebra
         }
 
         /// <summary>
-        /// Product between two matrixes.
+        /// Product between two matrices.
         /// </summary>
         /// <param name="m1">First Matrix</param>
         /// <param name="m2">Second Matrix</param>
@@ -138,12 +153,41 @@ namespace MatSharp.LinearAlgebra
         }
         public static Matrix<T> operator /(T x, Matrix<T> m1) { return m1 / x; }
 
+        /// <summary>
+        /// Compares two matrixes
+        /// </summary>
+        /// <param name="m1">Matrix</param>
+        /// <param name="m2">Matrix</param>
+        /// <returns>True if the matrices are equal, false if otherwise</returns>
+        public static bool operator ==(Matrix<T> m1, Matrix<T> m2)
+        {
+            if ((m1.RowsCount != m2.RowsCount) || (m1.ColumnsCount != m2.ColumnsCount))
+                return false;
 
-        //public static Matrix<T> operator /(T x, Matrix<T> m1) {
-        //    return m1;
-        //}
+            for (int i = 0; i < m1.RowsCount; i++)
+                for (int j = 0; j < m1.ColumnsCount; j++)
+                    if (m1.data[i, j] != (dynamic)m2.data[i, j])
+                        return false;
+
+            return true;
+        }
+
+        public static bool operator !=(Matrix<T> m1, Matrix<T> m2)
+        {
+            return !(m1 == m2);
+        }
 
         public T[,] GetRawMatrix() { return this.data; }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
 
         public override string ToString()
         {
