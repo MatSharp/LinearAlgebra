@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\IncompatibleDimentionsException.cs" />
+    <Compile Include="Exceptions\InvertibleMatrixException.cs" />
     <Compile Include="Exceptions\MatrixDimensionMismatchException.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
