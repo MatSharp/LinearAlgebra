@@ -54,6 +54,28 @@ namespace MatSharp.LinearAlgebra
         }
 
         /// <summary>
+        /// Gets the value in the specified position of the matrix
+        /// </summary>
+        /// <param name="row">Row index</param>
+        /// <param name="column">Column index</param>
+        /// <returns>Value in position (row, column)</returns>
+        public T GetValue(int row, int column)
+        {
+            return this.data[row, column];
+        }
+
+        /// <summary>
+        /// Sets the value in the specified position of the matrix
+        /// </summary>
+        /// <param name="row">Row index</param>
+        /// <param name="column">Column index</param>
+        /// <param name="value">Value to be set</param>
+        public void SetValue(int row, int column, T value)
+        {
+            this.data[row, column] = value;
+        }
+
+        /// <summary>
         /// Calculates the transpose of this matrix
         /// </summary>
         /// <returns>The transpose of the matrix</returns>
@@ -66,6 +88,66 @@ namespace MatSharp.LinearAlgebra
                     result.data[j, i] = this.data[i, j];
 
             return result;
+        }
+
+        /// <summary>
+        /// Calculates the determinant of the matrix.
+        /// </summary>
+        /// <returns>Determinant value</returns>
+        public T Determinant()
+        {
+            if (this.RowsCount != this.ColumnsCount)
+                return (dynamic)0;
+
+            return CalcDeterminant(this);
+        }
+
+        /// <summary>
+        /// Recursive "working" function used to calculate the determinant.
+        /// </summary>
+        /// <param name="matrix">Matrix</param>
+        /// <returns>Determinant</returns>
+        protected T CalcDeterminant(Matrix<T> matrix)
+        {
+            T total = (dynamic)0;
+
+            if (matrix.ColumnsCount == 1)
+                return matrix.data[0, 0];
+            else
+            {
+                for (int i = 0; i < matrix.ColumnsCount; i++)
+                {
+                    Matrix<T> newMatrix = new Matrix<T>(matrix.RowsCount - 1, matrix.ColumnsCount - 1);
+                    T[,] newData = new T[matrix.RowsCount - 1, matrix.ColumnsCount - 1];
+
+                    int r2 = 0, c2 = 0;
+                    for (int r = 1; r < matrix.RowsCount; r++)
+                    {
+                        c2 = 0;
+                        for (int c = 0; c < matrix.ColumnsCount; c++)
+                        {
+                            if (c == i)
+                                continue;
+
+                            newData[r2, c2] = matrix.data[r, c];
+
+                            c2++;
+                        }
+
+                        r2++;
+                    }
+
+                    newMatrix.data = newData;
+
+                    if ((i % 2) == 0)
+                        total += matrix.data[0, i] * (dynamic)CalcDeterminant(newMatrix);
+                    else
+                        total -= matrix.data[0, i] * (dynamic)CalcDeterminant(newMatrix);
+                }
+
+            }
+
+            return total;
         }
 
         /// <summary>
@@ -183,6 +265,17 @@ namespace MatSharp.LinearAlgebra
                     norm += this.data[i, j] * (dynamic)this.data[i, j];
 
             return (dynamic)Math.Sqrt((dynamic)norm);
+        }
+
+
+        /// <summary>
+        /// Preforms the QR decomposition of this matrix
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="q"></param>
+        public void QRDecompose(ref Matrix<T> r, ref Matrix<T> q)
+        {
+
         }
 
         /// <summary>
@@ -340,6 +433,21 @@ namespace MatSharp.LinearAlgebra
         /// </summary>
         /// <returns>Data array</returns>
         public T[,] GetRawMatrix() { return this.data; }
+
+        /// <summary>
+        /// Copies the current object into a new one.
+        /// </summary>
+        /// <returns>A copy of the current object</returns>
+        public Matrix<T> Copy()
+        {
+            Matrix<T> newMatrix = new Matrix<T>(this.RowsCount, this.ColumnsCount);
+
+            for (int i = 0; i < this.RowsCount; i++)
+                for (int j = 0; j < this.ColumnsCount; j++)
+                    newMatrix.data[i, j] = this.data[i, j];
+
+            return newMatrix;
+        }
 
         public override bool Equals(object obj)
         {
